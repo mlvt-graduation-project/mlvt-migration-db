@@ -4,8 +4,21 @@ import argparse
 import sqlite3
 import sys
 import os
+import shutil
+
+def backup_database(db_file):
+    # Create a backup of the database file
+    base_name = os.path.splitext(db_file)[0]
+    backup_file = f"{base_name}_backup.db"
+    try:
+        shutil.copyfile(db_file, backup_file)
+        print(f"Backup created: '{backup_file}'")
+    except IOError as e:
+        print(f"An error occurred while creating the backup: {e}")
+        sys.exit(1)
 
 def add_field(db_file, table, field_name, data_type, init_value):
+    backup_database(db_file)
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
@@ -20,6 +33,7 @@ def add_field(db_file, table, field_name, data_type, init_value):
     conn.close()
 
 def delete_field(db_file, table, field_name):
+    backup_database(db_file)
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
@@ -38,6 +52,7 @@ def delete_field(db_file, table, field_name):
     conn.close()
 
 def update_one(db_file, table, field_name, record_id, value):
+    backup_database(db_file)
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
@@ -51,6 +66,7 @@ def update_one(db_file, table, field_name, record_id, value):
     conn.close()
 
 def update_all(db_file, table, field_name, value):
+    backup_database(db_file)
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
 
