@@ -17,7 +17,7 @@ This script allows you to add, update, or delete fields (columns) in an SQLite3 
 python main.py --action <action> --table <table_name> --field <field_name> [additional arguments] 
 ```
 
-- <mark> --db </mark>: (Optional) Path to the SQLite database file. Defaults to mlvt.db.
+- `--db`: (Optional) Path to the SQLite database file. Defaults to mlvt.db.
 
 ## Actions and Required Arguments
 
@@ -27,49 +27,74 @@ python main.py --action <action> --table <table_name> --field <field_name> [addi
 python main.py --action add --table <table_name> --field <field_name> --type <data_type> --init_value <initial_value>
 ```
 
---type: Data type of the new field (e.g., TEXT, INTEGER, REAL).
---init_value: Initial value for the new field.
-2. Delete a Field
-``` python main.py --action delete --table <table_name> --field <field_name> ```
+- `--type`: Data type of the new field (e.g., TEXT, INTEGER, REAL).
+- `--init_value`: Initial value for the new field.
+
+**2. Delete a Field**
+
+```bash
+python main.py --action delete --table <table_name> --field <field_name>
+```
 
 Note: Deleting a field requires SQLite version 3.35.0 or higher.
 
-3. Update One Record
-``` python main.py --action update_one --table <table_name> --field <field_name> --id <record_id> --value <new_value> ```
+**3. Update One Record**
 
---id: The id of the record to update.
---value: New value for the field.
-4. Update All Records
-``` python main.py --action update_all --table <table_name> --field <field_name> --value <new_value> ```
+```bash
+python main.py --action update_one --table <table_name> --field <field_name> --id <record_id> --value <new_value>
+```
 
---value: New value for the field.
-Examples
-Add a Field status to the transcriptions Table
-``` python main.py --action add --table transcriptions --field status --type TEXT --init_value 'raw' ```
+- `--id`: The id of the record to update.
+- `--value`: New value for the field.
 
-Update the status Field for a Specific Record
-``` python main.py --action update_one --table transcriptions --field status --id 1 --value 'processed' ```
+**4. Update All Records**
 
-Update the status Field for All Records
-``` python main.py --action update_all --table transcriptions --field status --value 'processed' ```
+```bash
+python main.py --action update_all --table <table_name> --field <field_name> --value <new_value>
+```
 
-Delete the status Field from the transcriptions Table
-``` python main.py --action delete --table transcriptions --field status ```
+- `--value`: New value for the field.
 
-Notes
-Database File: If the specified database file does not exist, the script will create it automatically.
+### Examples
 
-Table Creation: Ensure that the table exists in the database before performing actions. You may need to create the table using SQLite commands if it doesn't exist.
+1. Add a Field status to the transcriptions Table
 
-SQLite Version: Deleting a field requires SQLite version 3.35.0 or higher. Check your SQLite version with:
+```bash
+python main.py --action add --table transcriptions --field status --type TEXT --init_value 'raw'
+```
 
-``` python -c "import sqlite3; print(sqlite3.sqlite_version)" ```
+2. Update the status Field for a Specific Record
 
-Python Version: Make sure you're using Python 3.x.
+```bash
+python main.py --action update_one --table transcriptions --field status --id 1 --value 'processed'
+```
 
-Permissions: Ensure you have read and write permissions for the database file.
+3. Update the status Field for All Records
 
-Data Types: Use standard SQLite data types when specifying the --type argument.
+```bash
+python main.py --action update_all --table transcriptions --field status --value 'processed' 
+```
+
+4. Delete the status Field from the transcriptions Table
+
+```bash
+python main.py --action delete --table transcriptions --field status 
+```
+
+## Notes
+**Database File**: If the specified database file does not exist, the script will create it automatically.
+
+**Table Creation**: Ensure that the table exists in the database before performing actions. You may need to create the table using SQLite commands if it doesn't exist.
+
+**SQLite Version**: Deleting a field requires SQLite version 3.35.0 or higher. Check your SQLite version with:
+
+```bash
+python -c "import sqlite3; print(sqlite3.sqlite_version)"
+```
+
+**Python Version**: Make sure you're using Python 3.x.
+
+**Data Types**: Use standard SQLite data types when specifying the --type argument.
 
 Troubleshooting
 Table Not Found: If you receive an error about a missing table, verify that the table exists in the database.
